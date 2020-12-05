@@ -19,10 +19,10 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       home: Center(
         child: AnimatedSplashScreen(
-          duration: 3500,
+          duration: 3000,
           splash: 'assets/quetzal.png',
           nextScreen: HomePage(),
-          splashTransition: SplashTransition.slideTransition,
+          splashTransition: SplashTransition.fadeTransition,
           splashIconSize: 250.0,
           animationDuration: Duration(seconds: 2),
         ),

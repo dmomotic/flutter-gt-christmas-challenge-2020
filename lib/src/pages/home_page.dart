@@ -1,73 +1,71 @@
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_challenge_gt/src/widgets/grid_view.dart';
+
 import 'package:get/get.dart';
+import 'package:after_layout/after_layout.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../constants/images.dart';
 import '../state/theme_controller.dart';
+import 'overlay_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with AfterLayoutMixin<HomePage> {
   final themeController = Get.put(ThemeController());
+  bool showOverlay = false;
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 1200), () {
+      _chageState();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: AnimationLimiter(
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: StaggeredGridView.countBuilder(
-                crossAxisCount: 3,
-                itemCount: images.length,
-                itemBuilder: (ctx, index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 375),
-                    child: SlideAnimation(
-                      verticalOffset: 50.0,
-                      horizontalOffset: 75.0,
-                      child: FadeInAnimation(
-                        child: FlipCard(
-                          direction: index % 2 == 0
-                              ? FlipDirection.HORIZONTAL
-                              : FlipDirection.VERTICAL,
-                          front: ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: Image.asset(
-                              images[index],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          back: ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: Image.asset(
-                              background[index],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                staggeredTileBuilder: (index) => StaggeredTile.count(
-                    (index % 7 == 0) ? 2 : 1, (index % 7 == 0) ? 2 : 1),
-                mainAxisSpacing: 8.0,
-                crossAxisSpacing: 8.0,
+    return Stack(
+      children: [
+        SafeArea(
+          child: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: AnimationLimiter(
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: CustomGridView(),
+                ),
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.autorenew),
+              onPressed: () {
+                themeController.change();
+              },
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            themeController.change();
-          },
-        ),
-      ),
+        showOverlay
+            ? GestureDetector(
+                child: AnimationConfiguration.synchronized(
+                  duration: Duration(milliseconds: 1000),
+                  child: FadeInAnimation(
+                    child: OverlayPage(),
+                  ),
+                ),
+                onTap: _chageState,
+              )
+            : Container(),
+      ],
     );
+  }
+
+  _chageState() {
+    setState(() {
+      showOverlay = !showOverlay;
+    });
   }
 }

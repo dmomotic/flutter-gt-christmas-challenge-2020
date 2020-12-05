@@ -33,6 +33,7 @@ dependencies:
   flip_card: ^0.4.4
   flutter_staggered_animations: "^0.1.2"
   animated_splash_screen: ^1.0.1+2
+  after_layout: ^1.0.7+2
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +55,7 @@ flutter:
     - assets/background/
     - assets/main/
     - assets/quetzal.png
+    - assets/push.gif
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
