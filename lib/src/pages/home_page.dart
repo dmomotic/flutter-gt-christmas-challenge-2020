@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin<HomePage> {
   final giftPageController = Get.put(GiftPageController());
 
   bool showOverlay = false;
-  bool showGiftPage = false;
 
   @override
   void afterFirstLayout(BuildContext context) {
