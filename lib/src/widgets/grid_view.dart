@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_challenge_gt/src/constants/card_controllers.dart';
 import 'package:flutter_challenge_gt/src/constants/images.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -23,6 +24,7 @@ class CustomGridView extends StatelessWidget {
             child: FadeInAnimation(
               child: CustomFlipCard(
                 index: index,
+                cardKey: cardControllers[index],
               ),
             ),
           ),

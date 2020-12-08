@@ -11,7 +11,7 @@ class ThemeController extends GetxController {
           ? ThemeData.dark().copyWith(
               floatingActionButtonTheme:
                   ThemeData.dark().floatingActionButtonTheme.copyWith(
-                        backgroundColor: Colors.green[900],
+                        backgroundColor: Colors.blueAccent,
                         foregroundColor: Colors.white,
                       ),
             )

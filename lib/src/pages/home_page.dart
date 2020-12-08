@@ -1,12 +1,17 @@
+// import 'package:flare_flutter/flare_actor.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_challenge_gt/src/widgets/grid_view.dart';
 
 import 'package:get/get.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../state/theme_controller.dart';
+import 'gift_page.dart';
 import 'overlay_page.dart';
+import '../widgets/grid_view.dart';
+import '../widgets/floating_menu.dart';
+import '../state/theme_controller.dart';
+import '../state/gift_page_controller.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +20,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with AfterLayoutMixin<HomePage> {
   final themeController = Get.put(ThemeController());
+  final giftPageController = Get.put(GiftPageController());
+
   bool showOverlay = false;
+  bool showGiftPage = false;
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -40,14 +48,17 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin<HomePage> {
                 ),
               ),
             ),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.autorenew),
-              onPressed: () {
-                themeController.change();
-              },
-            ),
+            floatingActionButton: FloatingMenu(),
           ),
         ),
+        Obx(() => giftPageController.showGiftPage.value
+            ? GestureDetector(
+                child: GiftPage(),
+                onTap: () {
+                  giftPageController.change();
+                },
+              )
+            : Container()),
         showOverlay
             ? GestureDetector(
                 child: AnimationConfiguration.synchronized(
